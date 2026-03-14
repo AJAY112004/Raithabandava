@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "language": "en",
+  "items": [
+    {
+      "slug": "tomato-blight",
+      "title": "Tomato - Early Blight",
+      "tags": ["disease", "tomato", "blight"],
+      "content": {
+        "description": "Early blight is caused by Alternaria solani and shows concentric rings on leaves.",
+        "symptoms": ["dark circular lesions on lower leaves", "yellowing of foliage", "fruit lesions"],
+        "recommendation": "Remove infected leaves, avoid overhead watering, apply a copper fungicide or recommended local fungicide following label rates. Rotate crops and practice sanitation.",
+        "references": ["local extension office", "consult agronomist"]
+      }
+    },
+    {
+      "slug": "powdery-mildew",
+      "title": "Powdery Mildew (general)",
+      "tags": ["disease", "fungus", "powdery"],
+      "content": {
+        "description": "White powdery patches appear on leaves and stems; common on many vegetable and horticultural crops.",
+        "symptoms": ["white powdery lesions", "distorted growth", "reduced yield"],
+        "recommendation": "Improve airflow, avoid dense planting, apply sulfur or potassium bicarbonate sprays per label. Remove severely affected tissue.",
+        "references": ["local extension services"]
+      }
+    },
+    {
+      "slug": "weather-advice",
+      "title": "Weather-related Advice",
+      "tags": ["weather", "advice"],
+      "content": {
+        "description": "General guidelines for actions to take on heavy rainfall, drought, or frost alerts.",
+        "actions": {
+          "heavy_rain": "Ensure good drainage, secure young plants, delay pesticide application until fields dry.",
+          "drought": "Mulch to conserve soil moisture, irrigate at critical stages, consider drought-tolerant varieties.",
+          "frost": "Protective covers for high-value crops, delayed irrigation to reduce frost risk, consult local forecast for timing."
+        }
+      }
+    },
+    {
+      "slug": "market-pricing-tips",
+      "title": "Market Pricing & Selling Tips",
+      "tags": ["market", "pricing", "sales"],
+      "content": {
+        "description": "Practical market advice for smallholder farmers",
+        "tips": ["Harvest at the right maturity for best price", "Grade produce and remove spoiled items", "Bundle and pack neatly for buyers", "Check multiple mandi/market prices before deciding where to sell"]
+      }
+    }
+  ]
+}

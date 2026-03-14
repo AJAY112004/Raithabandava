@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "source": "raitha-bandhava-hub local knowledge",
+  "notes": "These are sample fertilizer dosage guidelines for smallholder crops. Use as reference only; always cross-check with local extension services.",
+  "crops": {
+    "rice": {
+      "nitrogen": { "dose_kg_per_ha": 80, "timing": "Split: 1/3 basal, 1/3 tillering, 1/3 panicle initiation" },
+      "phosphorus": { "dose_kg_per_ha": 40, "timing": "Basal application at transplanting" },
+      "potassium": { "dose_kg_per_ha": 40, "timing": "Split with N or as basal" }
+    },
+    "maize": {
+      "nitrogen": { "dose_kg_per_ha": 120, "timing": "Split: half at sowing, half at knee high" },
+      "phosphorus": { "dose_kg_per_ha": 60, "timing": "Basal" },
+      "potassium": { "dose_kg_per_ha": 40, "timing": "Basal or side-dress" }
+    },
+    "tomato": {
+      "nitrogen": { "dose_kg_per_ha": 150, "timing": "Split applications during growth" },
+      "phosphorus": { "dose_kg_per_ha": 80, "timing": "Basal before transplanting" },
+      "potassium": { "dose_kg_per_ha": 200, "timing": "Split during fruiting" }
+    },
+    "cotton": {
+      "nitrogen": { "dose_kg_per_ha": 120, "timing": "Split applications" },
+      "phosphorus": { "dose_kg_per_ha": 60, "timing": "Basal" },
+      "potassium": { "dose_kg_per_ha": 80, "timing": "Split" }
+    }
+  }
+}
