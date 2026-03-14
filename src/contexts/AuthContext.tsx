@@ -1,6 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
 
 interface Profile {
   id: string;
@@ -15,8 +13,8 @@ interface Profile {
 }
 
 interface AuthContextType {
-  user: User | null;
-  session: Session | null;
+  user: any | null;
+  session: any | null;
   profile: Profile | null;
   loading: boolean;
   signUp: (email: string, password: string, userData: {
@@ -52,62 +50,24 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>({ id: 'mock-user', email: 'mock@example.com' });
+  const [session, setSession] = useState<any>({ user: { id: 'mock-user', email: 'mock@example.com' } });
+  const [profile, setProfile] = useState<Profile>({
+    id: 'mock-profile',
+    user_id: 'mock-user',
+    name: 'Mock Farmer',
+    phone: '1234567890',
+    address: 'Mock Address',
+    aadhaar_number: '123456789012',
+    role: 'farmer',
+    location: 'Mock Location',
+    crops_grown: ['Rice', 'Wheat']
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, 'User:', session?.user?.email);
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          // Fetch user profile
-          setTimeout(async () => {
-            const { data: profileData } = await supabase
-              .from('profiles')
-              .select('*')
-              .eq('user_id', session.user.id)
-              .single();
-            
-            console.log('Profile loaded:', profileData);
-            setProfile(profileData);
-          }, 0);
-        } else {
-          setProfile(null);
-        }
-        
-        setLoading(false);
-      }
-    );
-
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('Initial session check:', session?.user?.email);
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        supabase
-          .from('profiles')
-          .select('*')
-          .eq('user_id', session.user.id)
-          .single()
-          .then(({ data: profileData }) => {
-            console.log('Initial profile loaded:', profileData);
-            setProfile(profileData);
-            setLoading(false);
-          });
-      } else {
-        setLoading(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    // Mock auth - always logged in
+    setLoading(false);
   }, []);
 
   const signUp = async (email: string, password: string, userData: {
@@ -117,57 +77,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     aadhaar_number: string;
     role: 'farmer' | 'distributor' | 'admin';
   }) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl,
-        data: userData
-      }
-    });
-    
-    return { error };
+    // Mock signup - always success
+    return { error: null };
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    
-    return { error };
+    // Mock signin - always success
+    return { error: null };
   };
 
   const signOut = async () => {
-    try {
-      console.log('Signing out...');
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      
-      console.log('Sign out successful, clearing state...');
-      // Clear local state
-      setUser(null);
-      setProfile(null);
-      setSession(null);
-      
-      // Redirect to home page
-      console.log('Redirecting to home...');
-      window.location.href = '/';
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
+    // Mock signout
+    setUser(null);
+    setProfile(null);
+    setSession(null);
   };
 
   const resetPassword = async (email: string) => {
-    const redirectUrl = `${window.location.origin}/reset-password`;
-    
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectUrl,
-    });
-    
-    return { error };
+    // Mock reset
+    return { error: null };
   };
 
   const value = {

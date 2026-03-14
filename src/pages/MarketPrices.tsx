@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/components/LanguageProvider';
-import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -65,31 +64,22 @@ const MarketPrices = () => {
   const fetchMarketPrices = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase.functions.invoke('fetch-market-prices');
-      
-      if (error) throw error;
-      
-      if (data?.success) {
-        setMarketData(data.data || []);
-        setLastUpdated(data.lastUpdated || new Date().toISOString());
-        setDataSource(data.live ? '🔴 Live' : data.fallback ? '📊 Generated' : '💾 Cached');
-        toast({ 
-          title: t('marketPrices.title'), 
-          description: `${t('marketPrices.loading')} ${data.data?.length || 0}`
-        });
-      } else {
-        throw new Error('Failed to fetch market prices');
-      }
+      // Use mock data instead of Supabase
+      const data = getFallbackData();
+      setMarketData(data);
+      setLastUpdated(new Date().toISOString());
+      setDataSource('Mock Data');
+      toast({ 
+        title: t('marketPrices.title'), 
+        description: `Loaded ${data.length} market prices`
+      });
     } catch (error) {
       console.error('Error fetching market prices:', error);
       toast({
-        title: t('marketplace.error'),
-        description: t('marketPrices.failedAddWatchlist') || 'Failed to fetch market prices. Using cached data.',
+        title: 'Error',
+        description: 'Failed to load market prices.',
         variant: 'destructive'
       });
-      // Use fallback data if fetch fails
-      setMarketData(getFallbackData());
-      setDataSource('Fallback');
     } finally {
       setLoading(false);
     }
@@ -159,17 +149,12 @@ const MarketPrices = () => {
   };
 
   const fetchWatchlist = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('market_watchlist')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setWatchlist(data || []);
-    } catch (error) {
-      console.error('Error fetching watchlist:', error);
+    // Mock watchlist - use localStorage
+    const stored = localStorage.getItem('market_watchlist');
+    if (stored) {
+      setWatchlist(JSON.parse(stored));
+    } else {
+      setWatchlist([]);
     }
   };
 
@@ -178,16 +163,18 @@ const MarketPrices = () => {
     if (!user) return;
 
     try {
-      const { error } = await supabase
-        .from('market_watchlist')
-        .insert([{
-          user_id: user.id,
-          crop_name: alertForm.crop_name,
-          target_price: parseFloat(alertForm.target_price),
-          market_location: alertForm.market_location
-        }]);
+      const newItem: WatchlistItem = {
+        id: Date.now().toString(),
+        crop_name: alertForm.crop_name,
+        target_price: parseFloat(alertForm.target_price),
+        market_location: alertForm.market_location,
+        alert_enabled: true,
+        created_at: new Date().toISOString()
+      };
 
-      if (error) throw error;
+      const current = JSON.parse(localStorage.getItem('market_watchlist') || '[]');
+      current.push(newItem);
+      localStorage.setItem('market_watchlist', JSON.stringify(current));
       
       toast({ title: "Success", description: "Added to watchlist successfully" });
       setAlertForm({ crop_name: '', target_price: '', market_location: '' });
@@ -205,12 +192,9 @@ const MarketPrices = () => {
 
   const removeFromWatchlist = async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('market_watchlist')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
+      const current = JSON.parse(localStorage.getItem('market_watchlist') || '[]');
+      const filtered = current.filter((item: WatchlistItem) => item.id !== id);
+      localStorage.setItem('market_watchlist', JSON.stringify(filtered));
       toast({ title: "Success", description: "Removed from watchlist" });
       fetchWatchlist();
     } catch (error) {
