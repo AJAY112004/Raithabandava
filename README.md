@@ -1,16 +1,16 @@
-# Raitha Bandhava Hub - College Project Report
+# Raitha Bandhava Hub - Frontend Only Version
 
 ## Project Overview
-Raitha Bandhava Hub is a comprehensive agricultural technology platform built with React, TypeScript, and Supabase. The application provides farmers with tools for crop planning, disease detection, weather forecasting, market price tracking, and financial management.
+Raitha Bandhava Hub is a comprehensive agricultural technology platform built with React, TypeScript. The application provides farmers with tools for crop planning, disease detection, weather forecasting, market price tracking, and financial management. This version runs entirely in the frontend with mock data - no backend or database required.
 
 ## Technology Stack
 - **Frontend**: React 18 + TypeScript + Vite
 - **UI Framework**: Shadcn/ui (Radix UI components)
 - **Styling**: Tailwind CSS
-- **Backend**: Supabase (PostgreSQL + Edge Functions)
 - **State Management**: React Query (TanStack Query)
 - **Form Handling**: React Hook Form
 - **Package Manager**: npm
+- **Data Storage**: Local browser storage (localStorage) for persistence
 
 ## Prerequisites
 Before running this project, ensure you have the following installed:
@@ -30,19 +30,10 @@ cd raitha-bandhava-hub
 ```bash
 npm install
 ```
-This command will install all required packages listed in `package.json`, including React, Vite, Tailwind CSS, and Supabase libraries.
+This command will install all required packages listed in `package.json`, including React, Vite, and Tailwind CSS.
 
-### Step 3: Configure Environment Variables
-Create a `.env.local` file in the root directory with the following variables:
-
-```
-VITE_SUPABASE_URL=YOUR_SUPABASE_URL
-VITE_SUPABASE_PUBLISHABLE_KEY=YOUR_SUPABASE_PUBLISHABLE_KEY
-VITE_OPENWEATHER_API_KEY=YOUR_OPENWEATHER_API_KEY
-VITE_OPENAI_API_KEY=YOUR_OPENAI_API_KEY
-```
-
-**Note**: The default values in `src/integrations/supabase/client.ts` are placeholders and must be replaced with actual Supabase credentials for the application to function properly.
+### Step 3: Run the Application
+No environment variables or backend setup required - everything runs locally with mock data.
 
 ## Running the Project
 
@@ -88,14 +79,11 @@ raitha-bandhava-hub/
 │   │   └── ui/            # Shadcn/ui component library
 │   ├── contexts/          # React Context (Authentication)
 │   ├── hooks/             # Custom React hooks
-│   ├── integrations/      # Third-party integrations (Supabase)
+│   ├── integrations/      # Third-party integrations (Mock Supabase)
 │   ├── lib/               # Utility functions
 │   ├── data/              # Static JSON data
 │   ├── App.tsx            # Main app component
 │   └── main.tsx           # Entry point
-├── supabase/              # Supabase configuration
-│   ├── functions/         # Edge Functions (Deno)
-│   └── migrations/        # Database migrations
 ├── public/                # Static assets
 ├── package.json           # Project dependencies
 ├── tsconfig.json          # TypeScript configuration
@@ -211,19 +199,18 @@ npm install
 - Edge (latest)
 
 ## Notes for College Submission
-1. **Secrets Removed**: All API keys and credentials have been replaced with placeholders
+1. **Frontend Only**: No backend or database required - runs entirely in browser with mock data
 2. **node_modules Excluded**: Install dependencies using `npm install`
-3. **Database Setup**: Requires a Supabase project for full functionality
-4. **Edge Functions**: Supabase Edge Functions are written in Deno and run on the server
+3. **Data Persistence**: Uses localStorage for user data and chat messages
+4. **Mock Features**: All features work with simulated data for demonstration
 
-## How to Add Your Own Credentials
-To make this project fully functional:
-
-1. Create a [Supabase](https://supabase.com) project
-2. Get your project URL and publishable key
-3. Obtain API keys from [OpenWeather](https://openweathermap.org/) and [OpenAI](https://openai.com/)
-4. Create `.env.local` file with your credentials
-5. Run `npm install` and `npm run dev`
+## How to Run
+Simply run:
+```bash
+npm install
+npm run dev
+```
+No API keys or external services required!
 
 ## Additional Resources
 - [React Documentation](https://react.dev)
